@@ -43,7 +43,7 @@ defmodule Openchat.MixProject do
       {:phoenix, "~> 1.8.1"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.13"},
-      {:ecto_sqlite3, ">= 0.0.0"},
+      {:postgrex, "~> 0.21"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.1.0"},
@@ -81,11 +81,10 @@ defmodule Openchat.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["compile", "tailwind openchat", "esbuild openchat"],
+      "assets.setup": ["cmd --cd assets npm ci"],
+      "assets.build": ["compile", "cmd --cd assets npm run build"],
       "assets.deploy": [
-        "tailwind openchat --minify",
-        "esbuild openchat --minify",
+        "cmd --cd assets npm run build",
         "phx.digest"
       ],
       precommit: ["compile --warning-as-errors", "deps.unlock --unused", "format", "test"]

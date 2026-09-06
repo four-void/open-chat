@@ -1,0 +1,5 @@
+<script>
+  let {name, size=20, class:className=''}=$props();
+  const icons={smile:'hero-face-smile',reply:'hero-arrow-uturn-left',more:'hero-ellipsis-horizontal',edit:'hero-pencil-square',trash:'hero-trash',chat:'hero-chat-bubble-left-right',hash:'hero-hashtag',voice:'hero-speaker-wave',plus:'hero-plus',arrow:'hero-arrow-up-right',send:'hero-arrow-up',close:'hero-x-mark',menu:'hero-bars-3',users:'hero-user-group',settings:'hero-cog-6-tooth',lock:'hero-lock-closed',shield:'hero-shield-check',thread:'hero-chat-bubble-left-ellipsis',search:'hero-magnifying-glass',down:'hero-chevron-down',back:'hero-arrow-left',logout:'hero-arrow-right-start-on-rectangle',mic:'hero-microphone',screen:'hero-computer-desktop',phone:'hero-phone',end:'hero-phone-x-mark',check:'hero-check',archive:'hero-archive-box',spark:'hero-sparkles',help:'hero-question-mark-circle',copy:'hero-document-duplicate'};
+</script>
+<span aria-hidden="true" class={`${icons[name]||icons.chat} ${className}`} style:width={`${size}px`} style:height={`${size}px`}></span>

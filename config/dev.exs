@@ -2,10 +2,15 @@ import Config
 
 # Configure your database
 config :openchat, Openchat.Repo,
-  database: Path.expand("../openchat_dev.db", __DIR__),
+  database: "openchat_dev" <> (System.get_env("MIX_TEST_PARTITION") || ""),
+  hostname: "127.0.0.1",
+  port: 55432,
+  username: "openchat",
+  password: System.get_env("POSTGRES_PASSWORD") || "openchat_local_only",
+  log: false,
   pool_size: 5,
   stacktrace: true,
-  show_sensitive_data_on_connection_error: true
+  show_sensitive_data_on_connection_error: false
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -17,13 +22,12 @@ config :openchat, OpenchatWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: String.to_integer(System.get_env("PORT") || "4000")],
-  check_origin: false,
+  check_origin: ["//localhost:4000", "//127.0.0.1:4000"],
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "4clcI3lF2Eptrq25pWvBzavsapv/EZ3hGZ5xwsY8rP3NwLLtuXn3LvpB5z8nWgxt",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:openchat, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:openchat, ~w(--watch)]}
+    npm: ["run", "dev", cd: Path.expand("../assets", __DIR__)]
   ]
 
 # ## SSL Support
@@ -61,7 +65,7 @@ config :openchat, OpenchatWeb.Endpoint,
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :openchat, dev_routes: true
+config :openchat, dev_routes: false
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :default_formatter, format: "[$level] $message\n"

@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: openchat
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-openchat_local_only}
+      POSTGRES_DB: openchat_dev
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - secure_pg_v1:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openchat -d openchat_dev"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+volumes:
+  secure_pg_v1:

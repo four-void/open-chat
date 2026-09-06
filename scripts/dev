@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+set -eu
+cd "$(dirname "$0")/.."
+if [ -f .env ]; then
+  set -a
+  . ./.env
+  set +a
+fi
+docker compose up -d --wait db
+mix deps.get
+mix ecto.create
+mix ecto.migrate
+npm --prefix assets ci
+npm --prefix assets run build
+exec mix phx.server

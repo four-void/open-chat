@@ -39,3 +39,11 @@ npm-debug.log
 *.db
 *.db-*
 
+
+.env
+.env.*
+!.env.example
+
+/.local/
+/.playwright-cli/
+/output/

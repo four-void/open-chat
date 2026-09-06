@@ -10,10 +10,12 @@ defmodule Openchat.Application do
     children = [
       OpenchatWeb.Telemetry,
       Openchat.Repo,
+      Openchat.Security.Limiter,
       {Ecto.Migrator,
        repos: Application.fetch_env!(:openchat, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:openchat, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Openchat.PubSub},
+      OpenchatWeb.Presence,
       # Start a worker by calling: Openchat.Worker.start_link(arg)
       # {Openchat.Worker, arg},
       # Start to serve requests, typically the last entry
@@ -35,7 +37,7 @@ defmodule Openchat.Application do
   end
 
   defp skip_migrations?() do
-    # By default, sqlite migrations are run when using a release
+    # Apply PostgreSQL migrations on release startup.
     System.get_env("RELEASE_NAME") == nil
   end
 end

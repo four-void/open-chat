@@ -1,15 +1,19 @@
 defmodule OpenchatWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :openchat
 
-  # The session will be stored in the cookie and signed,
-  # this means its contents can be read but not tampered with.
-  # Set :encryption_salt if you would also like to encrypt it.
+  # Sessions are encrypted and signed; only a revocable opaque token is stored.
   @session_options [
     store: :cookie,
     key: "_openchat_key",
     signing_salt: "WRsLrKdC",
-    same_site: "Lax"
+    same_site: "Strict",
+    encryption_salt: "encrypted-session-v1",
+    http_only: true,
+    secure: Application.compile_env(:openchat, :secure_cookies, false),
+    max_age: 86400
   ]
+
+  socket "/socket", OpenchatWeb.UserSocket, websocket: [max_frame_size: 65_536], longpoll: false
 
   socket "/live", Phoenix.LiveView.Socket,
     websocket: [connect_info: [session: @session_options]],
@@ -43,7 +47,8 @@ defmodule OpenchatWeb.Endpoint do
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
   plug Plug.Parsers,
-    parsers: [:urlencoded, :multipart, :json],
+    parsers: [:urlencoded, :json],
+    length: 150_000,
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 

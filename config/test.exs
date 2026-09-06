@@ -6,7 +6,12 @@ import Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :openchat, Openchat.Repo,
-  database: Path.expand("../openchat_test.db", __DIR__),
+  database: "openchat_test" <> (System.get_env("MIX_TEST_PARTITION") || ""),
+  hostname: "127.0.0.1",
+  port: 55432,
+  username: "openchat",
+  password: System.get_env("POSTGRES_PASSWORD") || "openchat_local_only",
+  log: false,
   pool_size: 5,
   pool: Ecto.Adapters.SQL.Sandbox
 
