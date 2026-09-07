@@ -215,6 +215,7 @@ defmodule OpenchatWeb.ApiController do
   def edit_message(conn, %{"id" => id} = params), do: message_action(conn, id, :edit, params)
   def delete_message(conn, %{"id" => id} = params), do: message_action(conn, id, :delete, params)
   def react_message(conn, %{"id" => id} = params), do: message_action(conn, id, :react, params)
+
   defp message_action(conn, id, action, params) do
     kind = if conn.path_info |> Enum.take(2) == ["api", "direct"], do: :direct, else: :room
     reply(conn, Openchat.MessageActions.change(conn.assigns.user, kind, id, action, params))

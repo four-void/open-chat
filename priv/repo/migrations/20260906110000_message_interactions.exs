@@ -1,5 +1,6 @@
 defmodule Openchat.Repo.Migrations.MessageInteractions do
   use Ecto.Migration
+
   def change do
     for table <- [:messages, :direct_messages] do
       alter table(table) do

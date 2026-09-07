@@ -213,7 +213,7 @@
   }
   async function archiveThread(){threadBusy=true;try{await api(`/threads/${thread.id}`,'PATCH',{archived:!thread.archived});await refreshThreads();}catch(e){fail(e);}finally{threadBusy=false;}}
   function closePanel(){panel='';++threadGeneration;thread=null;threadMessages=[];threadLoading=false;}
-  async function changedMessage(raw){const serverId=server.id,roomId=room.id;const item=await decryptMessage(raw,serverId);if(room?.id!==roomId)return;if(raw.thread_id){if(thread?.id===raw.thread_id)mergeReplies([item]);}else mergeMessages([item]);await refreshThreads();}
+  async function changedMessage(raw){if(raw.room_id!==room?.id)return;const serverId=server.id,roomId=room.id;const item=await decryptMessage(raw,serverId);if(room?.id!==roomId)return;if(raw.thread_id){if(thread?.id===raw.thread_id)mergeReplies([item]);}else mergeMessages([item]);await refreshThreads();}
   async function editMessage(message,text){const nonce=crypto.randomUUID();const encrypted=await seal(await importKey(keys[server.id]),body(text,message.reply),messageContext(message.room_id,user.id,nonce,message.thread_id));const raw=await api(`/messages/${message.id}`,'PATCH',{encrypted:{...encrypted,nonce}});await changedMessage(raw);}
   function replyMessage(message){replyTo=message;tick().then(()=>document.getElementById('message-input')?.focus());}
   async function send(event){

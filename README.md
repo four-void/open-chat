@@ -38,6 +38,14 @@ Les clés déverrouillées restent en mémoire : après un rechargement de page,
 
 L’interface utilise une navigation compacte, une recherche locale des salons, un panneau contextuel pour les membres et les fils, et un menu de salons escamotable sur mobile.
 
+## Interactions des messages
+
+Dans les salons et les messages privés, survolez un message ou ouvrez son menu d’actions (également au clic droit). Sur écran tactile, les boutons restent visibles. Vous pouvez répondre à un message, réagir avec un emoji, copier son texte et modifier ou supprimer vos propres messages. Les fils disposent aussi des réactions, de l’édition et de la suppression. Les changements sont diffusés en temps réel.
+
+Le champ de saisie accepte plusieurs lignes : **Entrée** envoie, **Maj + Entrée** ajoute une ligne. Le bouton emoji insère un emoji dans le texte. La suppression demande confirmation et laisse un repère « Message supprimé », afin de préserver les fils existants. Les réponses font référence au message original sans enregistrer une copie de son texte ; lorsque ce message n’est pas dans l’historique chargé, un libellé générique apparaît.
+
+Cette version ne reproduit pas toutes les fonctions de Discord : pièces jointes/GIF, épingles, recherche globale et notifications de mentions restent à implémenter.
+
 ## Gérer les membres
 
 Dans **Membres**, recherchez une personne ou filtrez par présence et par rôle. Un clic ou clic droit sur une ligne ouvre sa fiche : profil, message privé, demande d’amitié et rôles. Les administrateurs peuvent ajouter ou retirer un rôle avec un interrupteur ; chaque changement est enregistré immédiatement, sans formulaire de validation supplémentaire. Les rôles protégés restent visibles mais désactivés.

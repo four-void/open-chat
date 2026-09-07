@@ -60,3 +60,9 @@ Les deux navigateurs dérivent une clé AES-256-GCM avec ECDH P-256 puis HKDF-SH
 Les identités publiques sont distribuées par le backend de confiance, sans vérification indépendante d’empreinte. Ce mécanisme utilise des identités statiques, sans Double Ratchet ni confidentialité persistante. La perte de la clé privée rend l’historique privé illisible ; la récupération et la rotation ne sont pas implémentées. Le serveur peut observer les identifiants des deux participants, les dates et les volumes des échanges. Les enveloppes des messages et les identités publiques bénéficient aussi du chiffrement applicatif au repos.
 
 Référence de l’implémentation Web Crypto : [ECDH suivi de HKDF](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/deriveKey).
+
+## Édition, suppression et réactions
+
+Les éditions restent chiffrées dans le navigateur ; une nouvelle enveloppe et un nouveau nonce remplacent le contenu précédent. Seul l’auteur peut modifier ou supprimer un message. Les permissions de lecture sont toujours vérifiées ; l’édition et les réactions nécessitent aussi le droit d’écrire. La suppression retire l’enveloppe courante de la base active mais ne peut pas effacer les copies déjà reçues ni les sauvegardes.
+
+Les réactions (emoji et utilisateurs) sont des métadonnées lisibles par le backend et chiffrées au repos dans un champ applicatif. Elles ne sont pas chiffrées de bout en bout. Les opérations sont sérialisées par message afin de conserver les réactions des autres utilisateurs. Les références des réponses sont incluses dans le contenu chiffré.

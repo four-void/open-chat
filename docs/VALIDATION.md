@@ -35,3 +35,10 @@ Les tests automatisés sont décrits dans le README. Le test CSRF inclut l’enc
 ## Gestion directe des membres — 6 septembre 2026
 
 56 tests backend réussis, dont ajout/retrait ciblé et idempotent d’un rôle, conservation des autres attributions et refus par statut administrateur, hiérarchie et serveur. 12 tests JavaScript réussis ; Svelte sans diagnostic et build réussi. Inspection native de Chrome indisponible (échec de démarrage du canal Computer Use) : le nouveau rendu des fiches membres n’a pas été validé visuellement dans cette passe.
+
+## Interactions des messages — 6 septembre 2026
+
+- `mix precommit` réussi avec un dossier de compilation isolé : 61 tests. Vérification des routes salons/MP, auteur seul autorisé à éditer/supprimer, droits de lecture/écriture, réactions idempotentes et conservation des fils après suppression du message initial.
+- 14 tests JavaScript réussis, dont compatibilité des anciens messages, références de réponse chiffrées et protection contre les événements arrivant dans le désordre. Svelte sans diagnostic et build réussi.
+- Migration appliquée. Le serveur Phoenix local était bloqué et ignorait SIGTERM ; il a été arrêté puis relancé. Les routes de session, salons et historiques répondent HTTP 200 avec la nouvelle version.
+- Contrôle visuel indisponible : le canal natif Computer Use échoue au démarrage. Le rendu et les interactions réelles dans le navigateur restent à vérifier ; aucune validation visuelle n’est revendiquée.
